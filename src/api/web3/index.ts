@@ -1,11 +1,9 @@
-import { getNetworkFromId } from '@gnosis.pm/dex-js'
-import { parseUserAgent } from 'detect-browser'
 import Web3 from 'web3'
 
 import { Network } from 'types'
 
 import { ChainId } from '@koyofinance/core-sdk'
-import { ETH_NODE_URL, INFURA_ID } from 'const'
+import { ETH_NODE_URL } from 'const'
 
 // TODO connect to mainnet if we need AUTOCONNECT at all
 export const getDefaultProvider = (): string | null => (process.env.NODE_ENV === 'test' ? null : ETH_NODE_URL)
@@ -43,45 +41,6 @@ export function createWeb3Api(provider?: string): Web3 {
 
   web3cache[_provider] = web3
   return web3
-}
-
-function infuraProvider(networkId: Network): string {
-  // INFURA_ID relies on mesa `config` file logic.
-  // We can be independent of that config by relying on the env var directly
-  if (!INFURA_ID) {
-    throw new Error(`INFURA_ID not set`)
-  }
-
-  const network = getNetworkFromId(networkId).toLowerCase()
-
-  if (isWebsocketConnection()) {
-    return `wss://${network}.infura.io/ws/v3/${INFURA_ID}`
-  } else {
-    return `https://${network}.infura.io/v3/${INFURA_ID}`
-  }
-}
-
-function isWebsocketConnection(): boolean {
-  // There's a bug in IOS affecting WebSocket connections reported in https://bugs.webkit.org/show_bug.cgi?id=228296
-  // The issue comes with a new experimental feature in Safari "NSURLSession WebSocket" which is toggled on by default
-  // and causes a termination on the connection which currently affects Infura. A solution until a fix is released (apparently in version 15.4)
-  // is to disable the "NSURLSession WebSocket" feature, but we could also fallback to https until the fix is released.
-  // TODO: Re-test this issue after IOS 15.4 is released and remove this function
-
-  const browserInfo = parseUserAgent(navigator.userAgent)
-
-  if (!browserInfo || !browserInfo.version) {
-    return true
-  }
-
-  const major = Number(browserInfo.version.split('.')[0])
-  const os = browserInfo.os?.toLocaleLowerCase()
-
-  if (os === 'ios' && major > 14) {
-    return false
-  }
-
-  return true
 }
 
 // For now only infura provider is available
