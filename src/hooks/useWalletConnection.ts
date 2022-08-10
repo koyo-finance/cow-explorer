@@ -1,8 +1,9 @@
+import { ChainId } from '@koyofinance/core-sdk'
+import { BlockchainUpdatePrompt, WalletInfo } from 'api/wallet/WalletApi'
 import { walletApi } from 'apps/gp-v1/api'
 import { useEffect, useMemo } from 'react'
 import { Command, Network } from 'types'
 import useSafeState from './useSafeState'
-import { BlockchainUpdatePrompt, WalletInfo } from 'api/wallet/WalletApi'
 
 interface PendingStateObject extends WalletInfo {
   pending: true
@@ -14,7 +15,7 @@ const PendingState: PendingStateObject = {
   isConnected: false,
   userAddress: undefined,
   networkId: undefined,
-  networkIdOrDefault: Network.MAINNET,
+  networkIdOrDefault: ChainId.BOBA,
 }
 
 const constructPendingState = ({ chainId, account, blockHeader }: BlockchainUpdatePrompt): PendingStateObject => {
@@ -46,7 +47,7 @@ export const useWalletConnection = ():
       ? constructPendingState(walletApi.blockchainState)
       : {
           ...walletInfo,
-          networkIdOrDefault: walletInfo.networkId || Network.MAINNET,
+          networkIdOrDefault: walletInfo.networkId || ChainId.BOBA,
           pending: false,
         }
   }, [walletInfo])

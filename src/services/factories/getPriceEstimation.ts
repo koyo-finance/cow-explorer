@@ -1,9 +1,9 @@
-import BigNumber from 'bignumber.js'
 import { assert, ONE_BIG_NUMBER } from '@gnosis.pm/dex-js'
+import BigNumber from 'bignumber.js'
 
+import { ChainId } from '@koyofinance/core-sdk'
 import { TheGraphApi } from 'api/thegraph/TheGraphApi'
 import { TokenList } from 'api/tokenList/TokenListApi'
-import { Network } from 'types'
 
 export interface GetPriceParams {
   baseTokenId: number
@@ -17,7 +17,7 @@ export function getPriceEstimationFactory(factoryParams: {
   const { theGraphApi, tokenListApi } = factoryParams
 
   // Only make sense to fetch prices for mainnet, thus we won't accept networkId parameter on this service
-  const networkId = Network.MAINNET
+  const networkId = ChainId.BOBA
 
   const tokenIdsSet = new Set(tokenListApi.getTokens(networkId).map((token) => token.id))
   const tokenIds = Array.from(tokenIdsSet).sort()

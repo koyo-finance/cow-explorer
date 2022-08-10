@@ -1,9 +1,10 @@
-import { TheGraphApiImplParams } from 'api/thegraph/TheGraphApi'
-import { MultiTcrApiParams } from 'api/tcr/MultiTcrApi'
+import { TokenDetailsConfigLegacy } from '@gnosis.pm/dex-js'
+import { ChainId } from '@koyofinance/core-sdk'
 import { DexPriceEstimatorParams } from 'api/dexPriceEstimator/DexPriceEstimatorApi'
 import { ContractDeploymentBlock } from 'api/exchange/ExchangeApi'
+import { MultiTcrApiParams } from 'api/tcr/MultiTcrApi'
+import { TheGraphApiImplParams } from 'api/thegraph/TheGraphApi'
 import { Network } from 'types'
-import { TokenDetailsConfigLegacy } from '@gnosis.pm/dex-js'
 
 interface BaseTokenSelection {
   sellToken: string
@@ -64,9 +65,7 @@ export interface TokenOverride {
 }
 
 export interface DisabledTokens {
-  [Network.MAINNET]: TokenOverride[]
-  [Network.RINKEBY]: TokenOverride[]
-  [Network.GNOSIS_CHAIN]: TokenOverride[]
+  [ChainId.BOBA]: TokenOverride[]
 }
 
 export interface Config {

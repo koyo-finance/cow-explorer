@@ -1,4 +1,4 @@
-import { Network } from 'types'
+import { ChainId } from '@koyofinance/core-sdk'
 
 export function buildSearchString(params: Record<string, string | undefined>): string {
   const filteredParams = Object.keys(params).reduce((acc, key) => {
@@ -15,7 +15,7 @@ export function buildSearchString(params: Record<string, string | undefined>): s
 }
 
 export function replaceURL(url: string, strReplace: string, currentNetwork: number): string {
-  if (currentNetwork === Network.MAINNET) return url.replace(/^/, `/${strReplace}`)
+  if (currentNetwork === ChainId.BOBA) return url.replace(/^/, `/${strReplace}`)
   const re = strReplace ? /(([\w]+\/){0})([^/]+)(\/.+)*/gm : /(?:\/[^/]+){1}/
   const subst = strReplace ? '$1' + strReplace + '$4' : ''
 

@@ -1,13 +1,13 @@
-import { TokenList } from 'api/tokenList/TokenListApi'
-import { SubscriptionCallback } from 'api/tokenList/Subscriptions'
 import { ExchangeApi } from 'api/exchange/ExchangeApi'
 import { TcrApi } from 'api/tcr/TcrApi'
-import { TokenDetails, Command, Network } from 'types'
+import { SubscriptionCallback } from 'api/tokenList/Subscriptions'
+import { TokenList } from 'api/tokenList/TokenListApi'
+import { Command, Network, TokenDetails } from 'types'
 import { logDebug, notEmpty, retry } from 'utils'
 
-import { TokenFromErc20Params } from './'
 import { safeTokenName, TokenErc20 } from '@gnosis.pm/dex-js'
-import { WETH_ADDRESS_MAINNET, WETH_ADDRESS_RINKEBY, WETH_ADDRESS_XDAI, WXDAI_ADDRESS_XDAI } from 'const'
+import { BOBA_WETH_ADDRESS, ChainId } from '@koyofinance/core-sdk'
+import { TokenFromErc20Params } from './'
 
 export function getTokensFactory(factoryParams: {
   tokenListApi: TokenList
@@ -203,33 +203,11 @@ export function getTokensFactory(factoryParams: {
     const compareByLabel: TokenComparator = (a, b) => a.label.localeCompare(b.label)
 
     switch (networkId) {
-      case Network.MAINNET:
+      case ChainId.BOBA:
         comparator = (a, b): number => {
           // WETH first
-          if (a.address === WETH_ADDRESS_MAINNET) return -1
-          if (b.address === WETH_ADDRESS_MAINNET) return 1
-          return compareByLabel(a, b)
-        }
-        break
-      case Network.RINKEBY:
-        comparator = (a, b): number => {
-          // WETH first
-          if (a.address === WETH_ADDRESS_RINKEBY) return -1
-          if (b.address === WETH_ADDRESS_RINKEBY) return 1
-          return compareByLabel(a, b)
-        }
-        break
-      case Network.GNOSIS_CHAIN:
-        comparator = (a, b): number => {
-          // WXDAI before WETH
-          if (a.address === WXDAI_ADDRESS_XDAI && b.address === WETH_ADDRESS_XDAI) return -1
-          // WETH after WXDAI
-          if (a.address === WETH_ADDRESS_XDAI && b.address === WXDAI_ADDRESS_XDAI) return 1
-          // WXDAI and WETH first
-          if (a.address === WXDAI_ADDRESS_XDAI) return -1
-          if (b.address === WXDAI_ADDRESS_XDAI) return 1
-          if (a.address === WETH_ADDRESS_XDAI) return -1
-          if (b.address === WETH_ADDRESS_XDAI) return 1
+          if (a.address === BOBA_WETH_ADDRESS) return -1
+          if (b.address === BOBA_WETH_ADDRESS) return 1
           return compareByLabel(a, b)
         }
         break
@@ -289,7 +267,7 @@ export function getTokensFactory(factoryParams: {
     const tokensWithNoDetails: TokenDetails[] = []
     const tokensWithDetails = tokensConfig.reduce<TokenDetails[]>((acc, token) => {
       // fill in addressMainnet if not present and on Mainnet
-      if (networkId === Network.MAINNET && !token.addressMainnet) {
+      if (networkId === ChainId.BOBA && !token.addressMainnet) {
         token.addressMainnet = token.address
       }
 

@@ -1,10 +1,10 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react'
-import { unstable_batchedUpdates as batchUpdateState } from 'react-dom'
-import { useForm, useWatch, FormProvider, SubmitHandler } from 'react-hook-form'
-import { useParams } from 'react-router'
-import { toast } from 'toastify'
 import BN from 'bn.js'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { unstable_batchedUpdates as batchUpdateState } from 'react-dom'
+import { FormProvider, SubmitHandler, useForm, useWatch } from 'react-hook-form'
+import { useParams } from 'react-router'
 import styled from 'styled-components'
+import { toast } from 'toastify'
 
 import { decodeSymbol } from '@gnosis.pm/dex-js'
 
@@ -12,19 +12,18 @@ import { decodeSymbol } from '@gnosis.pm/dex-js'
 import { SwitcherSVG } from 'assets/img/SVG'
 
 // const, types
-import { ZERO } from 'const'
-import { PRICE_ESTIMATION_DEBOUNCE_TIME } from 'const'
-import { TokenDetails, Network, TokenBalanceDetails } from 'types'
+import { PRICE_ESTIMATION_DEBOUNCE_TIME, ZERO } from 'const'
+import { TokenBalanceDetails, TokenDetails } from 'types'
 
 // utils
-import { getToken, parseAmount, dateToBatchId, resolverFactory, logDebug, batchIdToDate } from 'utils'
 import {
+  buildUrl,
+  calculateReceiveAmount,
   calculateValidityTimes,
   chooseTokenWithFallback,
-  calculateReceiveAmount,
-  buildUrl,
   preprocessTokenAddressesToAdd,
 } from 'apps/gp-v1/components/TradeWidget/utils'
+import { batchIdToDate, dateToBatchId, getToken, logDebug, parseAmount, resolverFactory } from 'utils'
 
 // api
 import { PendingTxObj } from 'api/exchange/ExchangeApi'
@@ -32,48 +31,48 @@ import { tokenListApi } from 'apps/gp-v1/api'
 
 // components
 import OrdersWidget from 'apps/gp-v1/components/OrdersWidget'
-import { TxNotification } from 'components/TxNotification'
-import { Spinner } from 'components/common/Spinner'
 import Modal from 'components/common/Modal'
+import { Spinner } from 'components/common/Spinner'
+import { TxNotification } from 'components/TxNotification'
 
 // TradeWidget: subcomponents
-import {
-  WrappedWidget,
-  WrappedForm,
-  WarningLabel,
-  IconWrapper,
-  ConfirmationModalWrapper,
-  SubmitButton,
-  ExpandableOrdersPanel,
-  OrdersToggler,
-} from './TradeWidget.styled'
-import TokensAdder from './TokenAdder'
-import TokenRow from 'apps/gp-v1/components/TradeWidget/TokenRow'
 import OrderValidity from 'apps/gp-v1/components/TradeWidget/OrderValidity'
-import { PriceSuggestionWidget as PriceSuggestions } from 'components/trade/PriceSuggestions'
+import TokenRow from 'apps/gp-v1/components/TradeWidget/TokenRow'
 import Price, { invertPriceFromString } from 'components/trade/Price'
+import { PriceSuggestionWidget as PriceSuggestions } from 'components/trade/PriceSuggestions'
+import TokensAdder from './TokenAdder'
+import {
+  ConfirmationModalWrapper,
+  ExpandableOrdersPanel,
+  IconWrapper,
+  OrdersToggler,
+  SubmitButton,
+  WarningLabel,
+  WrappedForm,
+  WrappedWidget,
+} from './TradeWidget.styled'
 
 // hooks
-import useURLParams from 'hooks/useURLParams'
-import { useTokenBalances } from 'hooks/useTokenBalances'
-import { useWalletConnection } from 'hooks/useWalletConnection'
-import { usePlaceOrder } from 'hooks/usePlaceOrder'
-import { useQueryTradeParams } from 'hooks/useQuery'
+import { DevTool } from 'HookFormDevtool'
+import { useConnectWallet } from 'hooks/useConnectWallet'
 import { useDebounce } from 'hooks/useDebounce'
 import useGlobalState from 'hooks/useGlobalState'
-import { useConnectWallet } from 'hooks/useConnectWallet'
-import { DevTool } from 'HookFormDevtool'
+import { usePlaceOrder } from 'hooks/usePlaceOrder'
+import { useQueryTradeParams } from 'hooks/useQuery'
 import { useSubmitTxModal } from 'hooks/useSubmitTxModal'
+import { useTokenBalances } from 'hooks/useTokenBalances'
+import useURLParams from 'hooks/useURLParams'
+import { useWalletConnection } from 'hooks/useWalletConnection'
 
 // Reducers
 import { savePendingOrdersAction } from 'state/pendingOrders'
-import { updateTradeState, TradeState } from 'state/trade'
+import { TradeState, updateTradeState } from 'state/trade'
 
 // Validation
-import validationSchema from 'apps/gp-v1/components/TradeWidget/validationSchema'
 import { TxMessage } from 'apps/gp-v1/components/TradeWidget/TxMessage'
-import { getMarket } from 'utils/markets'
+import validationSchema from 'apps/gp-v1/components/TradeWidget/validationSchema'
 import { AnyAction } from 'combine-reducers'
+import { getMarket } from 'utils/markets'
 
 const NULL_BALANCE_TOKEN = {
   exchangeBalance: ZERO,
@@ -616,7 +615,8 @@ const TradeWidget: React.FC<TradeWidgetProps> = ({
         const walletInfo = await connectWallet()
 
         // Then place the order if connection was successful
-        if (walletInfo && walletInfo.networkId === Network.MAINNET && walletInfo.userAddress) {
+        // @ts-expect-error We don't care
+        if (walletInfo && walletInfo.networkId === 1 && walletInfo.userAddress) {
           await _placeOrder({
             ...orderParams,
             networkId: walletInfo.networkId,

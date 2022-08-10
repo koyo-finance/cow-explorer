@@ -1,4 +1,5 @@
-import { AnalyticsDimension, Network } from 'types'
+import { ChainId } from '@koyofinance/core-sdk'
+import { AnalyticsDimension } from 'types'
 
 /** Explorer app constants */
 export const ORDER_QUERY_INTERVAL = 10000 // in ms
@@ -22,7 +23,7 @@ export const DIMENSION_NAMES = {
   [AnalyticsDimension.BROWSER_TYPE]: 'dimension2',
 }
 
-export const NETWORK_ID_SEARCH_LIST = [Network.MAINNET, Network.GNOSIS_CHAIN, Network.RINKEBY]
+export const NETWORK_ID_SEARCH_LIST = [ChainId.BOBA]
 
 // Estimation heigh of the header + footer space
 export const HEIGHT_HEADER_FOOTER = 257

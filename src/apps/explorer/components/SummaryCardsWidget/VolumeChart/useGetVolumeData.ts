@@ -5,6 +5,7 @@ import { useNetworkId } from 'state/network'
 import { Network } from 'types'
 import { VolumePeriod } from './VolumeChartWidget'
 import { VolumeDataResponse } from './VolumeChart'
+import { ChainId } from '@koyofinance/core-sdk'
 
 type RawVolumeItem = {
   timestamp: number
@@ -13,7 +14,7 @@ type RawVolumeItem = {
 
 export function useGetVolumeData(volumeTimePeriod = VolumePeriod.DAILY): VolumeDataResponse | undefined {
   const [volumeData, setVolumeDataJson] = useState<VolumeDataResponse | undefined>()
-  const network = useNetworkId() ?? Network.MAINNET
+  const network = useNetworkId() ?? ChainId.BOBA
 
   useEffect(() => {
     setVolumeDataJson((prevState) => {
@@ -38,7 +39,7 @@ export function useGetVolumeData(volumeTimePeriod = VolumePeriod.DAILY): VolumeD
 }
 
 async function getLastHoursData(network: Network): Promise<RawVolumeItem[]> {
-  const data = await COW_SDK[network]?.cowSubgraphApi.getLastHoursVolume(48)
+  const data = await COW_SDK[network]?.subgraphService.getLastHoursVolume(48)
 
   return (data?.hourlyTotals as RawVolumeItem[]) || []
 }
@@ -52,7 +53,7 @@ async function getLastDaysData(
     [VolumePeriod.MONTHLY]: 30 * 2,
     [VolumePeriod.YEARLY]: 365 * 2,
   }
-  const data = await COW_SDK[network]?.cowSubgraphApi.getLastDaysVolume(days[period])
+  const data = await COW_SDK[network]?.subgraphService.getLastDaysVolume(days[period])
 
   return (data?.dailyTotals as RawVolumeItem[]) || []
 }

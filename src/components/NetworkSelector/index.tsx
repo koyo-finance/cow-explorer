@@ -1,12 +1,13 @@
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { ChainId } from '@koyofinance/core-sdk'
+import { NO_REDIRECT_HOME_ROUTES } from 'const'
 import React, { useEffect, useRef, useState } from 'react'
 import { useHistory } from 'react-router'
 import { useLocation } from 'react-router-dom'
-import { faCheck } from '@fortawesome/free-solid-svg-icons'
-import { SelectorContainer, OptionsContainer, Option, NetworkLabel, StyledFAIcon } from './NetworkSelector.styled'
-import { replaceURL } from 'utils/url'
-import { NO_REDIRECT_HOME_ROUTES } from 'const'
 import { Network } from 'types'
 import { cleanNetworkName } from 'utils'
+import { replaceURL } from 'utils/url'
+import { NetworkLabel, Option, OptionsContainer, SelectorContainer, StyledFAIcon } from './NetworkSelector.styled'
 
 type networkSelectorProps = {
   networkId: number
@@ -20,19 +21,9 @@ type NetworkOptions = {
 
 export const networkOptions: NetworkOptions[] = [
   {
-    id: Network.MAINNET,
-    name: 'Ethereum',
+    id: ChainId.BOBA,
+    name: 'Boba',
     url: '',
-  },
-  {
-    id: Network.GNOSIS_CHAIN,
-    name: 'Gnosis Chain',
-    url: 'gc',
-  },
-  {
-    id: Network.RINKEBY,
-    name: 'Rinkeby',
-    url: 'rinkeby',
   },
 ]
 

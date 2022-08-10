@@ -1,31 +1,25 @@
-import { TENDERLY_API_URL, ETH_NULL_ADDRESS, APP_NAME } from 'const'
-import { Network } from 'types'
 import { fetchQuery } from 'api/baseApi'
+import { APP_NAME, ETH_NULL_ADDRESS } from 'const'
+import { Network } from 'types'
+import { abbreviateString } from 'utils'
 import {
   Account,
   Contract,
-  Trace,
-  PublicTrade as Trade,
-  Transfer,
-  TypeOfTrace,
   IndexTradeInput,
   IndexTransferInput,
+  PublicTrade as Trade,
+  Trace,
+  Transfer,
   TxTradesAndTransfers,
+  TypeOfTrace,
 } from './types'
-import { abbreviateString } from 'utils'
 
 export const ALIAS_TRADER_NAME = 'Trader'
 const COW_PROTOCOL_CONTRACT_NAME = 'GPv2Settlement'
 const API_BASE_URLs = _urlAvailableNetwork()
 
 function _urlAvailableNetwork(): Partial<Record<Network, string>> {
-  const urlNetwork = (_networkId: Network): string => `${TENDERLY_API_URL}/${_networkId}`
-
-  return {
-    [Network.MAINNET]: urlNetwork(Network.MAINNET),
-    [Network.RINKEBY]: urlNetwork(Network.RINKEBY),
-    [Network.GNOSIS_CHAIN]: urlNetwork(Network.GNOSIS_CHAIN),
-  }
+  return {}
 }
 
 function _getApiBaseUrl(networkId: Network): string {

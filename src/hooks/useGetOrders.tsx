@@ -16,6 +16,7 @@ import {
   GetOrderApi,
   tryGetOrderOnAllNetworksAndEnvironments,
 } from 'services/helpers/tryGetOrderOnAllNetworks'
+import { SupportedChainsList } from '@koyofinance/momiji-sdk'
 
 function isObjectEmpty(object: Record<string, unknown>): boolean {
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
@@ -167,7 +168,7 @@ export function useTxOrderExplorerLink(
 
     for (const network of NETWORK_ID_SEARCH_LIST) {
       //update provider to find tx in network
-      updateWeb3Provider(web3, network)
+      updateWeb3Provider(web3, network as SupportedChainsList)
       web3.eth.getTransaction(txHash).then((tx) => {
         if (tx) {
           setExplorerLink({
@@ -175,7 +176,7 @@ export function useTxOrderExplorerLink(
             networkId: network,
             identifier: txHash,
             showLogo: true,
-            label: network === Network.GNOSIS_CHAIN ? 'Blockscout' : 'Etherscan',
+            label: 'Etherscan',
           })
         }
       })

@@ -1,36 +1,26 @@
+import { COW_SDK } from 'const'
 import { Network } from 'types'
-import { COW_SDK, COW_SDK_DEV } from 'const'
 import { buildSearchString } from 'utils/url'
-import { isProd, isStaging } from 'utils/env'
 
+import { ChainId } from '@koyofinance/core-sdk'
+import { fetchQuery } from 'api/baseApi'
 import {
-  GetOrderParams,
   GetAccountOrdersParams,
+  GetOrderParams,
   GetOrdersParams,
   GetTradesParams,
+  GetTxOrdersParams,
   RawOrder,
   RawTrade,
-  GetTxOrdersParams,
 } from './types'
-import { fetchQuery } from 'api/baseApi'
 
 function getOperatorUrl(): Partial<Record<Network, string>> {
-  if (isProd || isStaging) {
-    return {
-      [Network.MAINNET]: process.env.OPERATOR_URL_PROD_MAINNET,
-      [Network.RINKEBY]: process.env.OPERATOR_URL_PROD_RINKEBY,
-      [Network.GNOSIS_CHAIN]: process.env.OPERATOR_URL_PROD_XDAI,
-    }
-  } else {
-    return {
-      [Network.MAINNET]: process.env.OPERATOR_URL_STAGING_MAINNET,
-      [Network.RINKEBY]: process.env.OPERATOR_URL_STAGING_RINKEBY,
-      [Network.GNOSIS_CHAIN]: process.env.OPERATOR_URL_STAGING_XDAI,
-    }
+  return {
+    [ChainId.BOBA]: process.env.OPERATOR_URL_PROD_BOBA,
   }
 }
 
-const COW_SDK_ENV = isProd || isStaging ? COW_SDK : COW_SDK_DEV
+const COW_SDK_ENV = COW_SDK
 
 const API_BASE_URL = getOperatorUrl()
 
@@ -67,18 +57,10 @@ function _get(networkId: Network, url: string): Promise<Response> {
 export async function getOrder(params: GetOrderParams): Promise<RawOrder | null> {
   const { networkId, orderId } = params
   const cowInstance = COW_SDK[networkId]
-  const cowInstanceDev = COW_SDK_DEV[networkId]
 
-  if (!cowInstance || !cowInstanceDev) return null
+  if (!cowInstance) return null
 
-  let order = null
-
-  try {
-    order = await cowInstance.cowApi.getOrder(orderId)
-  } catch (error) {
-    order = await cowInstanceDev.cowApi.getOrder(orderId)
-  }
-
+  const order = await cowInstance.orderbookService.getOrder(orderId)
   return order
 }
 
@@ -127,7 +109,7 @@ export async function getAccountOrders(params: GetAccountOrdersParams): Promise<
 
   if (!cowInstance) return []
 
-  return cowInstance.cowApi.getOrders({ owner, offset, limit })
+  return cowInstance.orderbookService.getOrders({ owner, offset, limit })
 }
 
 /**
@@ -139,13 +121,12 @@ export async function getTxOrders(params: GetTxOrdersParams): Promise<RawOrder[]
   console.log(`[getTxOrders] Fetching tx orders on network ${networkId}`)
 
   const cowInstance = COW_SDK[networkId]
-  const cowInstanceDev = COW_SDK_DEV[networkId]
 
-  if (!cowInstance || !cowInstanceDev) return []
+  if (!cowInstance) return []
 
-  const orders = await Promise.all([cowInstance.cowApi.getTxOrders(txHash), cowInstanceDev.cowApi.getTxOrders(txHash)])
+  const orders = await cowInstance.orderbookService.getTxOrders(txHash)
 
-  return [...orders[0], ...orders[1]]
+  return orders
 }
 
 /**
@@ -160,18 +141,15 @@ export async function getTxOrders(params: GetTxOrdersParams): Promise<RawOrder[]
 export async function getTrades(params: GetTradesParams): Promise<RawTrade[]> {
   const { networkId, owner = '', orderId = '' } = params
   const cowInstance = COW_SDK[networkId]
-  const cowInstanceDev = COW_SDK_DEV[networkId]
 
-  if (!cowInstance || !cowInstanceDev) return []
+  if (!cowInstance) return []
 
   console.log(`[getTrades] Fetching trades on network ${networkId} with filters`, { owner, orderId })
 
-  const trades = await Promise.all([
-    cowInstance.cowApi.getTrades({ owner, orderId }),
-    cowInstanceDev.cowApi.getTrades({ owner, orderId }),
-  ])
+  // @ts-expect-error idk
+  const trades = await cowInstance.orderbookService.getTrades({ owner, orderId })
 
-  return [...trades[0], ...trades[1]]
+  return trades
 }
 
 function _fetchQuery<T>(networkId: Network, queryString: string): Promise<T>

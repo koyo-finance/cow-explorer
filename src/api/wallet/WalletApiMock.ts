@@ -1,11 +1,12 @@
-import { Network, Command } from 'types'
-import BN from 'bn.js'
-import assert from 'assert'
 import { toWei } from '@gnosis.pm/dex-js'
+import assert from 'assert'
+import BN from 'bn.js'
+import { Command } from 'types'
 
+import { ChainId } from '@koyofinance/core-sdk'
 import { logDebug, wait } from 'utils'
 import { USER_1, USER_2 } from '../../../test/data'
-import { WalletApi, WalletInfo, ProviderInfo } from './WalletApi'
+import { ProviderInfo, WalletApi, WalletInfo } from './WalletApi'
 
 type OnChangeWalletInfo = (walletInfo: WalletInfo) => void
 
@@ -29,7 +30,7 @@ export class WalletApiMock implements WalletApi {
   public constructor() {
     this._connected = process.env.AUTOCONNECT === 'true'
     this._user = USER_1
-    this._networkId = Network.RINKEBY
+    this._networkId = ChainId.BOBA
     this._balance = toWei(new BN(2.75), 'ether')
     this._listeners = []
   }
@@ -113,7 +114,7 @@ export class WalletApiMock implements WalletApi {
   }
 
   public changeNetwork(): void {
-    this._networkId = this._networkId === Network.RINKEBY ? Network.MAINNET : Network.RINKEBY
+    this._networkId = ChainId.BOBA
     this._notifyListeners()
   }
 

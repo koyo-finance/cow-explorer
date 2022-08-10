@@ -1,15 +1,16 @@
-import React, { useEffect, useRef } from 'react'
 import BigNumber from 'bignumber.js'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
-import * as am4core from '@amcharts/amcharts4/core'
 import * as am4charts from '@amcharts/amcharts4/charts'
+import * as am4core from '@amcharts/amcharts4/core'
 import am4themesSpiritedaway from '@amcharts/amcharts4/themes/spiritedaway'
 
 import { safeTokenName } from 'utils'
 
-import { TokenDetails, Network } from 'types'
 import { getNetworkFromId } from '@gnosis.pm/dex-js'
+import { ChainId } from '@koyofinance/core-sdk'
+import { TokenDetails } from 'types'
 
 export interface OrderBookChartProps {
   /**
@@ -151,7 +152,7 @@ const drawLabels = ({ chart, baseToken, quoteToken, networkId }: DrawLabelsParam
   const quoteTokenLabel = safeTokenName(quoteToken)
   const market = baseTokenLabel + '-' + quoteTokenLabel
 
-  const networkDescription = networkId !== Network.MAINNET ? `${getNetworkFromId(networkId)} ` : ''
+  const networkDescription = networkId !== ChainId.BOBA ? `${getNetworkFromId(networkId)} ` : ''
 
   const [xAxis] = chart.xAxes
   const [yAxis] = chart.yAxes

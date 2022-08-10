@@ -5,16 +5,17 @@ import { TokenErc20 } from '@gnosis.pm/dex-js'
 import { Errors, Network, UiError } from 'types'
 
 import {
+  SingleErc20State,
   useErc20 as useErc20State,
   useMultipleErc20s as useMultipleErc20sState,
   useSaveErc20s,
-  SingleErc20State,
 } from 'state/erc20'
 
 import { getErc20Info } from 'services/helpers'
 
-import { web3, erc20Api } from 'apps/explorer/api'
+import { erc20Api, web3 } from 'apps/explorer/api'
 
+import { ChainId } from '@koyofinance/core-sdk'
 import { NATIVE_TOKEN_PER_NETWORK } from 'const'
 import { isNativeToken, retry } from 'utils'
 
@@ -27,7 +28,7 @@ async function _fetchErc20FromNetwork(params: {
 
   if (isNativeToken(address)) {
     // Default to mainnet (ETH) when the network isn't configured
-    const nativeToken = NATIVE_TOKEN_PER_NETWORK[networkId] || NATIVE_TOKEN_PER_NETWORK[Network.MAINNET]
+    const nativeToken = NATIVE_TOKEN_PER_NETWORK[networkId] || NATIVE_TOKEN_PER_NETWORK[ChainId.BOBA]
     // Overwrite native address because otherwise it won't match the case
     // Causing the caller to never know we got the token it was looking for
     return { ...nativeToken, address }

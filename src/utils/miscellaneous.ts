@@ -1,15 +1,15 @@
-import BN from 'bn.js'
-import BigNumber from 'bignumber.js'
-import Web3 from 'web3'
 import { TEN, ZERO } from '@gnosis.pm/dex-js'
+import BigNumber from 'bignumber.js'
+import BN from 'bn.js'
+import Web3 from 'web3'
 
 const toChecksumAddress = Web3.utils.toChecksumAddress
 
-import { Network, TokenDetails, Unpromise } from 'types'
+import { AuctionElement, Order, Trade } from 'api/exchange/ExchangeApi'
 import { AssertionError } from 'assert'
-import { AuctionElement, Trade, Order } from 'api/exchange/ExchangeApi'
+import { DEFAULT_TIMEOUT, MINIMUM_ALLOWANCE_DECIMALS, NATIVE_TOKEN_ADDRESS, ORDER_FILLED_FACTOR } from 'const'
+import { Network, TokenDetails, Unpromise } from 'types'
 import { batchIdToDate } from './time'
-import { ORDER_FILLED_FACTOR, MINIMUM_ALLOWANCE_DECIMALS, DEFAULT_TIMEOUT, NATIVE_TOKEN_ADDRESS } from 'const'
 
 export function assertNonNull<T>(val: T, message: string): asserts val is NonNullable<T> {
   if (val === undefined || val === null) {
@@ -95,13 +95,10 @@ export function isNativeToken(address: string): boolean {
   return address.toLowerCase() === NATIVE_TOKEN_ADDRESS.toLowerCase()
 }
 
-export function getImageAddress(address: string, network: Network): string {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function getImageAddress(address: string, _network: Network): string {
   if (isNativeToken(address)) {
-    // What is going on here?
-    // Well, this address here is the path on `src/assets/tokens/`
-    // So these special values will use the local images,
-    // because they are native tokens and don't really have an address
-    return network === Network.GNOSIS_CHAIN ? 'xdai' : 'eth'
+    return 'eth'
   }
   return address
 }

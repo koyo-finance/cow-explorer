@@ -1,6 +1,7 @@
-import { TokenDetails, Network } from 'types'
-import { DEFAULT_PRECISION } from 'const'
 import { safeTokenName, TokenDetailsConfigLegacy } from '@gnosis.pm/dex-js'
+import { ChainId } from '@koyofinance/core-sdk'
+import { DEFAULT_PRECISION } from 'const'
+import { TokenDetails } from 'types'
 
 export function getTokensByNetwork(networkId: number, tokenList: TokenDetailsConfigLegacy[]): TokenDetails[] {
   // Return token details
@@ -9,7 +10,7 @@ export function getTokensByNetwork(networkId: number, tokenList: TokenDetailsCon
     if (address) {
       // There's an address for the current network
       const { id, name, symbol, decimals = DEFAULT_PRECISION } = token
-      const addressMainnet = token.addressByNetwork[Network.MAINNET]
+      const addressMainnet = token.addressByNetwork[ChainId.BOBA]
 
       acc.push({
         id,

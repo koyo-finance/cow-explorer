@@ -12,6 +12,7 @@ import { useNetworkId } from 'state/network'
 // Config
 import { footerConfig } from '../Footer/config'
 import { Network } from 'types'
+import { ChainId } from '@koyofinance/core-sdk'
 
 const FooterStyled = styled.footer`
   display: flex;
@@ -119,7 +120,7 @@ export interface FooterType {
 
 export const Footer: React.FC<FooterType> = (props) => {
   const { isBeta = footerConfig.isBeta, url = footerConfig.url } = props
-  const networkId = useNetworkId() || Network.MAINNET
+  const networkId = useNetworkId() || ChainId.BOBA
   const settlementContractAddress = getGpV2ContractAddress(networkId, 'GPv2Settlement')
   const vaultRelayerContractAddress = getGpV2ContractAddress(networkId, 'GPv2VaultRelayer')
   return (

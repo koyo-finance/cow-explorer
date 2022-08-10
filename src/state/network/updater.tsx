@@ -1,26 +1,23 @@
 import React, { useEffect } from 'react'
 import { Redirect, useLocation } from 'react-router-dom'
 
-import { Network } from 'types'
 import useGlobalState from 'hooks/useGlobalState'
+import { Network } from 'types'
 
-import { setNetwork } from './actions'
-import { useNetworkId } from './hooks'
+import { ChainId } from '@koyofinance/core-sdk'
 import { updateWeb3Provider } from 'api/web3'
 import { web3 } from 'apps/explorer/api'
+import { setNetwork } from './actions'
+import { useNetworkId } from './hooks'
 
 const MAINNET_PREFIX = ''
-const NETWORK_PREFIXES_RAW: [Network, string][] = [
-  [Network.MAINNET, ''],
-  [Network.GNOSIS_CHAIN, 'gc'],
-  [Network.RINKEBY, 'rinkeby'],
-]
+const NETWORK_PREFIXES_RAW: [Network, string][] = [[ChainId.BOBA, '']]
 export const PREFIX_BY_NETWORK_ID: Map<Network, string> = new Map(NETWORK_PREFIXES_RAW)
 const NETWORK_ID_BY_PREFIX: Map<string, Network> = new Map(NETWORK_PREFIXES_RAW.map(([key, value]) => [value, key]))
 
 function getNetworkId(network = MAINNET_PREFIX): Network {
   const networkId = NETWORK_ID_BY_PREFIX.get(network)
-  return networkId || Network.MAINNET
+  return networkId || ChainId.BOBA
 }
 
 function getNetworkPrefix(network: Network): string {

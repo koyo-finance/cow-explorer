@@ -1,9 +1,9 @@
 import React, { ReactElement } from 'react'
 
-import { Network } from 'types'
 import { ExternalLink } from 'components/analytics/ExternalLink'
 import LogoWrapper, { LOGO_MAP } from 'components/common/LogoWrapper'
 
+import { ChainId, ExplorerTarget, getExplorerLink } from '@koyofinance/core-sdk'
 import { abbreviateString } from 'utils'
 
 type BlockExplorerLinkType = 'tx' | 'address' | 'contract' | 'token' | 'event'
@@ -40,62 +40,16 @@ export interface Props {
   showLogo?: boolean
 }
 
-function getEtherscanUrlPrefix(networkId: Network): string {
-  return !networkId || networkId === Network.MAINNET ? '' : (Network[networkId] || '').toLowerCase() + '.'
-}
-
-function getEtherscanUrlSuffix(type: BlockExplorerLinkType, identifier: string): string {
-  switch (type) {
-    case 'tx':
-      return `tx/${identifier}`
-    case 'event':
-      return `tx/${identifier}#eventlog`
-    case 'address':
-      return `address/${identifier}`
-    case 'contract':
-      return `address/${identifier}#code`
-    case 'token':
-      return `token/${identifier}`
-  }
-}
-
-function getBlockscoutUrlPrefix(networkId: number): string {
-  switch (networkId) {
-    case Network.GNOSIS_CHAIN:
-      return 'poa/xdai'
-
-    default:
-      return ''
-  }
-}
-
-function getBlockscoutUrlSuffix(type: BlockExplorerLinkType, identifier: string): string {
-  switch (type) {
-    case 'tx':
-      return `tx/${identifier}`
-    case 'event':
-      return `tx/${identifier}/logs`
-    case 'address':
-      return `address/${identifier}/transactions`
-    case 'contract':
-      return `address/${identifier}/contracts`
-    case 'token':
-      return `tokens/${identifier}/token-transfers`
-  }
-}
-
-function getBlockscoutUrl(networkId: number, type: BlockExplorerLinkType, identifier: string): string {
-  return `https://blockscout.com/${getBlockscoutUrlPrefix(networkId)}/${getBlockscoutUrlSuffix(type, identifier)}`
-}
-
-function getEtherscanUrl(networkId: number, type: BlockExplorerLinkType, identifier: string): string {
-  return `https://${getEtherscanUrlPrefix(networkId)}etherscan.io/${getEtherscanUrlSuffix(type, identifier)}`
-}
-
 function getExplorerUrl(networkId: number, type: BlockExplorerLinkType, identifier: string): string {
-  return networkId === Network.GNOSIS_CHAIN
-    ? getBlockscoutUrl(networkId, type, identifier)
-    : getEtherscanUrl(networkId, type, identifier)
+  return getExplorerLink(
+    networkId as ChainId,
+    type === 'tx' || type === 'event'
+      ? ExplorerTarget.TRANSACTION
+      : type === 'token'
+      ? ExplorerTarget.TOKEN
+      : ExplorerTarget.ADDRESS,
+    identifier,
+  )
 }
 
 /**

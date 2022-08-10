@@ -1,3 +1,4 @@
+import { ChainId } from '@koyofinance/core-sdk'
 import { ExplorerAppState } from 'apps/explorer/state'
 import useGlobalState from 'hooks/useGlobalState'
 import { Network } from 'types'
@@ -11,5 +12,5 @@ export function useNetworkId(): Network | null {
 export function useNetworkOrDefault(): Network {
   const [{ networkId }] = useGlobalState<ExplorerAppState>()
 
-  return networkId || Network.MAINNET
+  return networkId || ChainId.BOBA
 }

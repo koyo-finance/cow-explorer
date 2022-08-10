@@ -1,19 +1,17 @@
-import { INFURA_ID, WALLET_CONNECT_BRIDGE, STORAGE_KEY_CUSTOM_WC_OPTIONS } from 'const'
-import { IWalletConnectProviderOptions, IRPCMap } from '@walletconnect/types'
-import { Network } from 'types'
+import { ChainId } from '@koyofinance/core-sdk'
+import { IRPCMap, IWalletConnectProviderOptions } from '@walletconnect/types'
+import { INFURA_ID, STORAGE_KEY_CUSTOM_WC_OPTIONS, WALLET_CONNECT_BRIDGE } from 'const'
 
 export interface WCOptions {
   infuraId?: string
   bridge?: string
   rpc?: {
-    mainnet?: string
-    rinkeby?: string
-    xDAI?: string
+    boba?: string
   }
 }
 
 const defaultRPC = {
-  [Network.GNOSIS_CHAIN]: 'https://rpc.gnosischain.com/',
+  [ChainId.BOBA]: 'https://mainnet.boba.network/',
 }
 
 export const setCustomWCOptions = (options: WCOptions): boolean => {
@@ -37,12 +35,10 @@ export const getWCOptionsFromStorage = (): WCOptions => {
 const mapStoredRpc = (rpc?: WCOptions['rpc']): IRPCMap | undefined => {
   if (!rpc) return
 
-  const { mainnet, rinkeby, xDAI } = rpc
+  const { boba } = rpc
 
   const rpcMap = {}
-  if (mainnet) rpcMap[Network.MAINNET] = mainnet
-  if (rinkeby) rpcMap[Network.RINKEBY] = rinkeby
-  if (xDAI) rpcMap[Network.GNOSIS_CHAIN] = xDAI
+  if (boba) rpcMap[ChainId.BOBA] = boba
 
   return rpcMap
 }

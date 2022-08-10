@@ -1,15 +1,15 @@
+import Modal, { useModal } from 'components/common/Modal'
 import React from 'react'
 import styled from 'styled-components'
-import Modal, { useModal } from 'components/common/Modal'
 
 // assets
 import { faChartLine } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // const, types, utils
+import { getNetworkFromId, safeTokenName } from '@gnosis.pm/dex-js'
 import { MEDIA } from 'const'
-import { TokenDetails, Network } from 'types'
-import { safeTokenName, getNetworkFromId } from '@gnosis.pm/dex-js'
+import { TokenDetails } from 'types'
 
 // components
 import { DEFAULT_MODAL_OPTIONS, ModalBodyWrapper } from 'components/Modal'
@@ -17,6 +17,7 @@ import OrderBookWidget from 'components/order-book/OrderBookWidget'
 import TokenSelector from 'components/TokenSelector'
 
 // hooks
+import { ChainId } from '@koyofinance/core-sdk'
 import useSafeState from 'hooks/useSafeState'
 import { useTokenList } from 'hooks/useTokenList'
 import { useWalletConnection } from 'hooks/useWalletConnection'
@@ -118,7 +119,7 @@ export const OrderBookBtn: React.FC<OrderBookBtnProps> = (props: OrderBookBtnPro
   const { tokens: tokenList } = useTokenList({ networkId })
   const [baseToken, setBaseToken] = useSafeState<TokenDetails>(baseTokenDefault)
   const [quoteToken, setQuoteToken] = useSafeState<TokenDetails>(quoteTokenDefault)
-  const networkDescription = networkId !== Network.MAINNET ? ` (${getNetworkFromId(networkId)})` : ''
+  const networkDescription = networkId !== ChainId.BOBA ? ` (${getNetworkFromId(networkId)})` : ''
 
   const [modalHook, toggleModal] = useModal({
     ...DEFAULT_MODAL_OPTIONS,

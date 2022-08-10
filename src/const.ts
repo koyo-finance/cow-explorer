@@ -1,24 +1,25 @@
+import { BATCH_TIME, TokenErc20, UNLIMITED_ORDER_AMOUNT } from '@gnosis.pm/dex-js'
+import { ChainId, CHAIN_NATIVE_WRAPPED_ASSET } from '@koyofinance/core-sdk'
+import { Momiji, SupportedChainsList } from '@koyofinance/momiji-sdk'
 import BigNumber from 'bignumber.js'
 import BN from 'bn.js'
-import { CowSdk, SupportedChainId } from '@cowprotocol/cow-sdk'
-import { TokenErc20, UNLIMITED_ORDER_AMOUNT, BATCH_TIME } from '@gnosis.pm/dex-js'
+import { providers } from 'ethers'
+import { AddressToOverrideMap, DisabledTokensMaps, TokenOverride } from 'types/config'
 export {
-  UNLIMITED_ORDER_AMOUNT,
-  FEE_DENOMINATOR,
+  ALLOWANCE_FOR_ENABLED_TOKEN,
+  ALLOWANCE_MAX_VALUE,
   BATCH_TIME,
-  MAX_BATCH_ID,
-  FEE_PERCENTAGE,
   DEFAULT_DECIMALS as OLD_DEFAULT_DECIMALS,
   DEFAULT_PRECISION,
-  ZERO,
+  FEE_DENOMINATOR,
+  FEE_PERCENTAGE,
+  MAX_BATCH_ID,
   ONE,
-  TWO,
   TEN,
-  ALLOWANCE_MAX_VALUE,
-  ALLOWANCE_FOR_ENABLED_TOKEN,
+  TWO,
+  UNLIMITED_ORDER_AMOUNT,
+  ZERO,
 } from '@gnosis.pm/dex-js'
-import { Network } from 'types'
-import { DisabledTokensMaps, TokenOverride, AddressToOverrideMap } from 'types/config'
 
 export const BATCH_TIME_IN_MS = BATCH_TIME * 1000
 export const DEFAULT_TIMEOUT = 5000
@@ -221,38 +222,21 @@ export const DISABLED_TOKEN_MAPS = Object.keys(disabledTokens).reduce<DisabledTo
     return acc
   },
   {
-    [Network.MAINNET]: {},
-    [Network.RINKEBY]: {},
-    [Network.GNOSIS_CHAIN]: {},
+    [ChainId.BOBA]: {},
   },
 )
 
-export const COW_SDK = [Network.MAINNET, Network.RINKEBY, Network.GNOSIS_CHAIN].reduce<
-  Record<number, CowSdk<SupportedChainId> | null>
->((acc, networkId) => {
+export const COW_SDK = [ChainId.BOBA].reduce<Record<number, Momiji | null>>((acc, networkId) => {
   try {
-    acc[networkId] = new CowSdk(networkId)
+    acc[networkId] = new Momiji(
+      networkId as SupportedChainsList,
+      new providers.JsonRpcProvider('https://mainnet.boba.network/', networkId),
+    )
   } catch (error) {
     console.error('Instantiating CowSdk failed', error)
   }
 
   console.info(`CowSdk initialized on chain ${networkId}`)
-
-  return acc
-}, {})
-
-export const COW_SDK_DEV = [Network.MAINNET, Network.RINKEBY, Network.GNOSIS_CHAIN].reduce<
-  Record<number, CowSdk<SupportedChainId> | null>
->((acc, networkId) => {
-  try {
-    acc[networkId] = new CowSdk(networkId, {
-      isDevEnvironment: true,
-    })
-  } catch (error) {
-    console.error('Instantiating CowSdk in development mode failed', error)
-  }
-
-  console.info(`CowSdk in development mode initialized on chain ${networkId}`)
 
   return acc
 }, {})
@@ -271,11 +255,7 @@ export const XDAI: TokenErc20 = {
   address: NATIVE_TOKEN_ADDRESS,
 }
 
-export const NATIVE_TOKEN_PER_NETWORK: Record<string, TokenErc20> = {
-  '1': ETH,
-  '4': ETH,
-  '100': XDAI,
-}
+export const NATIVE_TOKEN_PER_NETWORK = CHAIN_NATIVE_WRAPPED_ASSET
 
 export const NO_REDIRECT_HOME_ROUTES: Array<string> = ['/address']
 

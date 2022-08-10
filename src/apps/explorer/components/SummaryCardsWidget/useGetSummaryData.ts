@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
+import { ChainId } from '@koyofinance/core-sdk'
 import { COW_SDK } from 'const'
 import { useCallback, useEffect, useState } from 'react'
 import { useNetworkId } from 'state/network'
-import { Network } from 'types'
 
 export interface BatchInfo {
   lastBatchDate: Date
@@ -83,11 +83,11 @@ const FETCH_INTERVAL = 1000 * 10 // 10 seconds
 
 export function useGetSummaryData(): TotalSummaryResponse | undefined {
   const [summary, setSummary] = useState<TotalSummaryResponse | undefined>()
-  const network = useNetworkId() ?? Network.MAINNET
+  const network = useNetworkId() ?? ChainId.BOBA
 
   const fetchAndBuildSummary = useCallback(async () => {
     setSummary((summary) => ({ ...summary, isLoading: true }))
-    COW_SDK[network]?.cowSubgraphApi.runQuery(summaryQuery).then((data: SummaryQuery) => {
+    COW_SDK[network]?.subgraphService.runQuery(summaryQuery).then((data: SummaryQuery) => {
       const summary = buildSummary(data)
       setSummary({ ...summary, isLoading: false })
     })

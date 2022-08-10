@@ -1,28 +1,29 @@
-import React, { CSSProperties, useMemo, useState, useCallback, useRef, useEffect } from 'react'
-import styled from 'styled-components'
-import Select, { ActionMeta } from 'react-select'
 import Modal from 'components/common/Modal'
+import React, { CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import Select, { ActionMeta } from 'react-select'
 import { FormatOptionLabelContext } from 'react-select/src/Select'
+import styled from 'styled-components'
 
 // assets
 import searchIcon from 'assets/img/search.svg'
 
 // const, type, utils
-import { MEDIA } from 'const'
-import { TokenDetails, TokenBalanceDetails, Network } from 'types'
-import { isAddress } from 'web3-utils'
-import { formatSmart } from 'utils'
 import { tokenListApi } from 'apps/gp-v1/api'
+import { MEDIA } from 'const'
+import { TokenBalanceDetails, TokenDetails } from 'types'
+import { formatSmart } from 'utils'
+import { isAddress } from 'web3-utils'
 
 // components
 import { TokenImgWrapper } from 'components/common/TokenImg'
+import { OptionItem, SearchItem } from 'components/TokenOptionItem'
 import { MenuList } from 'components/TokenSelectorComponents'
-import { SearchItem, OptionItem } from 'components/TokenOptionItem'
 
 // hooks
-import { useWalletConnection } from 'hooks/useWalletConnection'
-import useSafeState from 'hooks/useSafeState'
+import { ChainId } from '@koyofinance/core-sdk'
 import { useBetterAddTokenModal } from 'hooks/useBetterAddTokenModal'
+import useSafeState from 'hooks/useSafeState'
+import { useWalletConnection } from 'hooks/useWalletConnection'
 
 const Wrapper = styled.div`
   display: flex;
@@ -350,7 +351,7 @@ const TokenSelector: React.FC<Props> = ({ isDisabled, tokens, selected, onChange
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const fallBackNetworkId = networkId || Network.MAINNET
+  const fallBackNetworkId = networkId || ChainId.BOBA
 
   return (
     <Wrapper ref={wrapperRef} onKeyDown={stopEnterPropagation}>

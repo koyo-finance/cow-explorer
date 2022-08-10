@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
 import { AppDataDoc } from '@cowprotocol/cow-sdk'
+import { ChainId } from '@koyofinance/core-sdk'
+import { useEffect, useState } from 'react'
 import { useNetworkId } from 'state/network'
-import { COW_SDK } from 'const'
-import { Network } from 'types'
 
 export const useAppData = (appDataHash: string): { isLoading: boolean; appDataDoc: AppDataDoc | void | undefined } => {
   const network = useNetworkId() || undefined
@@ -29,15 +28,17 @@ export const useAppData = (appDataHash: string): { isLoading: boolean; appDataDo
 }
 
 export const getDecodedAppData = (
-  appDataHash: string,
-  networkId = Network.MAINNET,
+  _appDataHash: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _networkId = ChainId.BOBA,
 ): Promise<void | AppDataDoc> | undefined => {
-  return COW_SDK[networkId]?.metadataApi.decodeAppData(appDataHash)
+  throw new Error('yeet')
 }
 
 export const getCidHashFromAppData = (
-  appDataHash: string,
-  networkId = Network.MAINNET,
+  _appDataHash: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _networkId = ChainId.BOBA,
 ): Promise<string | void> | undefined => {
-  return COW_SDK[networkId]?.metadataApi.appDataHexToCid(appDataHash)
+  throw new Error('yeet')
 }

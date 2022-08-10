@@ -1,9 +1,10 @@
-import Web3 from 'web3'
 import { getNetworkFromId } from '@gnosis.pm/dex-js'
 import { parseUserAgent } from 'detect-browser'
+import Web3 from 'web3'
 
 import { Network } from 'types'
 
+import { ChainId } from '@koyofinance/core-sdk'
 import { ETH_NODE_URL, INFURA_ID } from 'const'
 
 // TODO connect to mainnet if we need AUTOCONNECT at all
@@ -86,11 +87,8 @@ function isWebsocketConnection(): boolean {
 // For now only infura provider is available
 export function getProviderByNetwork(networkId: Network | null): string | undefined {
   switch (networkId) {
-    case Network.MAINNET:
-    case Network.RINKEBY:
-      return infuraProvider(networkId)
-    case Network.GNOSIS_CHAIN:
-      return 'https://rpc.gnosischain.com/'
+    case ChainId.BOBA:
+      return 'https://mainnet.boba.network/'
     default:
       return undefined
   }

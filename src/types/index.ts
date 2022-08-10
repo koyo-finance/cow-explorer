@@ -1,9 +1,9 @@
+import { TokenDex } from '@gnosis.pm/dex-js'
+import { SupportedChainsList, SUPPORTED_CHAINS } from '@koyofinance/momiji-sdk'
+import { PendingFlux } from 'api/deposit/DepositApi'
 import BN from 'bn.js'
 import { TransactionReceipt } from 'web3-core'
-import { PendingFlux } from 'api/deposit/DepositApi'
 import { TokenOverride } from './config'
-import { TokenDex } from '@gnosis.pm/dex-js'
-import { SupportedChainId } from '@cowprotocol/cow-sdk'
 
 export type Command = () => void
 export type AnyFunction = (...args: unknown[]) => unknown
@@ -19,8 +19,8 @@ export enum Network {
 }
 */
 
-export const Network = SupportedChainId
-export type Network = SupportedChainId
+export const Network = SUPPORTED_CHAINS
+export type Network = SupportedChainsList
 
 export interface TokenDetails extends TokenDex {
   label: string
