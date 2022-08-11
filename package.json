@@ -24,15 +24,7 @@
     "test": "MOCK=true jest --cacheDirectory .jest-cache -o",
     "test:coverage": "MOCK=true jest --coverage --cache --cacheDirectory .jest-cache",
     "test:coverage:coveralls": "cat ./coverage/lcov.info | coveralls",
-    "verify": "npm-run-all --parallel lint:* test",
-    "format": "prettier --write \"src/**/*.ts?(x)\" \"src/**/*.js?(x)\"",
-    "check-types": "tsc --noEmit --incremental"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run verify",
-      "pre-push": "npm run check-types"
-    }
+    "format": "prettier --write \"src/**/*.ts?(x)\" \"src/**/*.js?(x)\""
   },
   "author": "",
   "dependencies": {
@@ -158,7 +150,6 @@
     "fork-ts-checker-webpack-plugin": "^4.0.3",
     "frontmatter-markdown-loader": "^3.2.1",
     "html-webpack-plugin": "^4.0.0-beta.11",
-    "husky": "^4.2.1",
     "image-webpack-loader": "^7.0.1",
     "jest": "^26.4.2",
     "jest-enzyme": "^7.1.2",

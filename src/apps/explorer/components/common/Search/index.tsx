@@ -15,7 +15,7 @@ export const Search: React.FC<SearchProps> = (props) => {
   const [query, setQuery] = useState('')
   const [showPlaceholder, setShowPlaceholder] = useState(true)
   const handleSubmit = useSearchSubmit()
-  const placeHolderText = 'Order ID / ETH Address / ENS Address / Tx Hash'
+  const placeHolderText = 'Order ID / ETH Address / Tx Hash'
 
   useEffect(() => {
     if (searchString && submitSearchImmediatly) {

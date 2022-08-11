@@ -31,7 +31,7 @@ export const Header: React.FC = () => {
   }
 
   return (
-    <GenericHeader logoAlt="CoW Protocol Explorer" linkTo={`/${prefixNetwork || ''}`}>
+    <GenericHeader logoAlt="Momiji Explorer" linkTo={`/${prefixNetwork || ''}`}>
       <NetworkSelector networkId={networkId} />
       <FlexWrap ref={flexWrapDivRef} grow={1}>
         <MenuBarToggle isActive={isBarActive} onClick={(): void => setBarActive(!isBarActive)}>

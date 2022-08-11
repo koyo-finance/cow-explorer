@@ -1,11 +1,8 @@
+import LogoImage from 'assets/img/momiji-light.png'
 import React, { PropsWithChildren } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { media } from 'theme/styles/media'
-
-import { Link } from 'react-router-dom'
-
-// Assets
-import LogoImage from 'assets/img/CowProtocol-logo-white.svg'
 
 const HeaderStyled = styled.header`
   height: auto;
@@ -45,6 +42,7 @@ const Logo = styled(Link)`
     width: inherit;
     height: inherit;
     margin: auto;
+    max-height: 48px;
   }
 
   > span {
