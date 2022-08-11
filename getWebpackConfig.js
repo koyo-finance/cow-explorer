@@ -27,6 +27,7 @@ function _getHtmlPlugin({ app, templatePath, isProduction }) {
     title: title,
     filename,
     ipfsHack: isProduction,
+    favicon: './src/assets/favicon.ico',
     minify: isProduction && {
       removeComments: true,
       collapseWhitespace: true,
