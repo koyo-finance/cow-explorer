@@ -1,35 +1,34 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { DefaultTheme, useTheme } from 'styled-components'
 import { format, fromUnixTime } from 'date-fns'
 import {
+  BarPrice,
+  Coordinate,
   createChart,
   HistogramData,
   IChartApi,
+  LogicalRange,
   MouseEventParams,
   UTCTimestamp,
-  BarPrice,
-  Coordinate,
-  LogicalRange,
 } from 'lightweight-charts'
-
-import { formatSmart } from 'utils'
-import Spinner from 'components/common/Spinner'
-import { calcDiff, getColorBySign } from 'components/common/Card/card.utils'
+import React, { useEffect, useRef, useState } from 'react'
+import { DefaultTheme, useTheme } from 'styled-components'
+import { numberFormatter } from 'apps/explorer/components/SummaryCardsWidget/utils'
 import {
   ChartSkeleton,
-  WrapperChart,
   ContainerTitle,
-  WrapperPeriodButton,
   StyledShimmerBar,
+  WrapperChart,
+  WrapperPeriodButton,
   WrapperTooltipPrice,
 } from 'apps/explorer/components/SummaryCardsWidget/VolumeChart/VolumeChart.styled'
 import {
   VolumePeriod,
   volumePeriodTitle,
 } from 'apps/explorer/components/SummaryCardsWidget/VolumeChart/VolumeChartWidget'
-import { numberFormatter } from 'apps/explorer/components/SummaryCardsWidget/utils'
-import { useNetworkId } from 'state/network'
+import { calcDiff, getColorBySign } from 'components/common/Card/card.utils'
+import Spinner from 'components/common/Spinner'
 import { usePrevious } from 'hooks/usePrevious'
+import { useNetworkId } from 'state/network'
+import { formatSmart } from 'utils'
 
 const DEFAULT_CHART_HEIGHT = 214 // px
 
@@ -261,7 +260,7 @@ export function VolumeChart({
     <>
       <WrapperChart ref={chartContainerRef}>
         <ContainerTitle captionColor={captionNameColor}>
-          <h3>CoW Protocol {periodTitle} volume</h3>
+          <h3>Momiji {periodTitle} volume</h3>
           <span>
             {isLoading ? (
               <StyledShimmerBar height={2} />

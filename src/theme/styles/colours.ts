@@ -74,7 +74,7 @@ export const BASE_COLOURS = {
   blue1: '#2172E5',
   blue2: '#3F77FF',
   blue4: '#62688F',
-  orange1: '#D96D49',
+  orange1: '#F0932C',
 }
 
 export const LIGHT_COLOURS = {
@@ -85,13 +85,13 @@ export const LIGHT_COLOURS = {
   green: '#1E9B75',
   greenOpacity: 'rgb(30 155 117 / 10%)',
   orange: '#DB843A',
-  orangeOpacity: 'rgb(219 132 58 / 20%)',
+  orangeOpacity: 'rgb(240 147 44 / 20%)',
 
   // text
   textPrimary1: '#2B3658',
   textSecondary1: '#EDEDED',
   textSecondary2: '#9797B8',
-  textActive1: '#D96D49',
+  textActive1: '#F0932C',
   textDisabled: '#31323E',
 
   // backgrounds / greys
@@ -121,14 +121,14 @@ export const DARK_COLOURS = {
   greyOpacity: 'rgb(141 141 169 / 10%)',
   green: '#00D897',
   greenOpacity: 'rgb(0 216 151 / 10%)',
-  orange: '#D96D49',
-  orangeOpacity: 'rgb(217 109 73 / 10%)',
+  orange: '#F0932C',
+  orangeOpacity: 'rgb(240 147 44 / 10%)',
 
   // text
   textPrimary1: '#FFF',
   textSecondary1: '#EDEDED',
   textSecondary2: '#9797B8',
-  textActive1: '#D96D49',
+  textActive1: '#F0932C',
   textDisabled: '#31323E',
 
   // backgrounds / greys
