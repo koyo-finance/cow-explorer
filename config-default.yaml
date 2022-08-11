@@ -109,10 +109,7 @@ initialTokenSelection:
   sellToken: DAI
   receiveToken: USDC
   # network override - selected within component as reliant on network
-  networks:
-    '100':
-      sellToken: wxDAI
-      receiveToken: USDC
+  networks: []
 
 # Initial Token List
 #   List of token loaded by default

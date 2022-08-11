@@ -32,7 +32,7 @@ function getNetworkPrefix(network: Network): string {
  */
 export const useDecomposedPath = (): [string, string] | [] => {
   const { pathname } = useLocation()
-  const pathMatchArray = pathname.match('/(rinkeby|xdai|mainnet|gc)?/?(.*)')
+  const pathMatchArray = pathname.match('/(boba)?/?(.*)')
 
   return pathMatchArray == null ? [] : [pathMatchArray[1], pathMatchArray[2]]
 }
@@ -65,15 +65,8 @@ export const SubstituteNetworkName = (from: string, toNetworkName = ''): string 
 }
 
 /** Redirects to the canonnical URL for mainnet */
-export const RedirectMainnet = (): JSX.Element => {
-  const newPath = SubstituteNetworkName('mainnet')
-
-  return <Redirect push={false} to={newPath} />
-}
-
-/** Redirects to the xDai to the GnosisChain new name */
-export const RedirectXdai = (): JSX.Element => {
-  const newPath = SubstituteNetworkName('xdai', '/gc')
+export const RedirectBoba = (): JSX.Element => {
+  const newPath = SubstituteNetworkName('boba')
 
   return <Redirect push={false} to={newPath} />
 }

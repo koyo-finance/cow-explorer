@@ -33,7 +33,7 @@ export interface WrapperProps {
 const tokensIconsRequire =
   process.env.NODE_ENV === 'test' ? RequireContextMock : require.context('assets/img/tokens', false)
 
-const TOKEN_ICON_FILENAME_REGEX = /(0x\w{40}|eth|xdai)/
+const TOKEN_ICON_FILENAME_REGEX = /(0x\w{40}|eth)/
 
 const tokensIconsFilesByAddress: Record<string, string> = tokensIconsRequire.keys().reduce((acc, file) => {
   const address = TOKEN_ICON_FILENAME_REGEX.exec(file)?.[0]

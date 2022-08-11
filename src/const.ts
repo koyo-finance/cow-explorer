@@ -248,13 +248,6 @@ export const ETH: TokenErc20 = {
   address: NATIVE_TOKEN_ADDRESS,
 }
 
-export const XDAI: TokenErc20 = {
-  name: 'xDai',
-  symbol: 'xDai',
-  decimals: 18,
-  address: NATIVE_TOKEN_ADDRESS,
-}
-
 export const NATIVE_TOKEN_PER_NETWORK = CHAIN_NATIVE_WRAPPED_ASSET
 
 export const NO_REDIRECT_HOME_ROUTES: Array<string> = ['/address']

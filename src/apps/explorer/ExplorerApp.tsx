@@ -1,24 +1,24 @@
 import React from 'react'
-import { BrowserRouter, HashRouter, Route, Switch, useRouteMatch, Redirect } from 'react-router-dom'
 import { hot } from 'react-hot-loader/root'
+import { BrowserRouter, HashRouter, Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'
 
+import { INITIAL_STATE, rootReducer } from 'apps/explorer/state'
+import Console from 'Console'
 import { withGlobalContext } from 'hooks/useGlobalState'
 import useNetworkCheck from 'hooks/useNetworkCheck'
-import Console from 'Console'
-import { rootReducer, INITIAL_STATE } from 'apps/explorer/state'
 
 import { GenericLayout } from 'components/layout'
 import { Header } from './layout/Header'
 
-import { NetworkUpdater, RedirectMainnet, RedirectXdai } from 'state/network'
-import { initAnalytics } from 'api/analytics'
-import RouteAnalytics from 'components/analytics/RouteAnalytics'
-import NetworkAnalytics from 'components/analytics/NetworkAnalytics'
-import { DIMENSION_NAMES } from './const'
 import * as Sentry from '@sentry/react'
 import { Integrations } from '@sentry/tracing'
+import { initAnalytics } from 'api/analytics'
+import NetworkAnalytics from 'components/analytics/NetworkAnalytics'
+import RouteAnalytics from 'components/analytics/RouteAnalytics'
+import { NetworkUpdater, RedirectBoba } from 'state/network'
 import { environmentName } from 'utils/env'
 import { version } from '../../../package.json'
+import { DIMENSION_NAMES } from './const'
 import { GlobalStyle, MainWrapper } from './styled'
 
 const SENTRY_DSN = process.env.REACT_APP_SENTRY_DSN
@@ -153,9 +153,8 @@ export const ExplorerApp: React.FC = () => {
         <Router basename={process.env.BASE_URL}>
           <StateUpdaters />
           <Switch>
-            <Route path="/mainnet" component={RedirectMainnet} />
-            <Route path="/xdai" component={RedirectXdai} />
-            <Route path={['/gc', '/rinkeby', '/']} component={AppContent} />
+            <Route path="/boba" component={RedirectBoba} />
+            <Route path={['/']} component={AppContent} />
           </Switch>
         </Router>
         {process.env.NODE_ENV === 'development' && <Console />}
