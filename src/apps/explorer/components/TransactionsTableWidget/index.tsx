@@ -18,6 +18,7 @@ import { Notification } from 'components/Notification'
 import { useTxBatchTrades, GetTxBatchTradesResult } from 'hooks/useTxBatchTrades'
 import TransactionBatchGraph from 'apps/explorer/components/TransanctionBatchGraph'
 import CowLoading from 'components/common/CowLoading'
+import { GRAPH_ENABLED } from 'utils/env'
 
 interface Props {
   txHash: string
@@ -38,18 +39,22 @@ function useQueryViewParams(): { tab: string } {
 }
 
 const tabItems = (txBatchTrades: GetTxBatchTradesResult, networkId: BlockchainNetwork): TabItemInterface[] => {
-  return [
+  const items = [
     {
       id: TabView.ORDERS,
       tab: <TabIcon title="Orders" iconFontName={faListUl} />,
       content: <TransactionsTableWithData />,
     },
-    {
+  ]
+
+  if (GRAPH_ENABLED)
+    items.push({
       id: TabView.GRAPH,
       tab: <TabIcon title="Graph" iconFontName={faProjectDiagram} />,
       content: <TransactionBatchGraph txBatchData={txBatchTrades} networkId={networkId} />,
-    },
-  ]
+    })
+
+  return items
 }
 
 export const TransactionsTableWidget: React.FC<Props> = ({ txHash }) => {

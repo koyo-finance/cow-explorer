@@ -29,6 +29,7 @@ import useSafeState from 'hooks/useSafeState'
 import { useNetworkId } from 'state/network'
 import { AppDataDoc } from '@cowprotocol/cow-sdk'
 import { DEFAULT_IPFS_READ_URI, IPFS_INVALID_APP_IDS } from 'const'
+import { GRAPH_ENABLED } from 'utils/env'
 
 const Table = styled(SimpleTable)`
   border: 0.1rem solid ${({ theme }): string => theme.borderPrimary};
@@ -346,10 +347,12 @@ export function DetailsTable(props: Props): JSX.Element | null {
                       onCopy={(): void => onCopy('settlementTx')}
                       contentsToDisplay={<LinkWithPrefixNetwork to={`/tx/${txHash}`}>{txHash}</LinkWithPrefixNetwork>}
                     />
-                    <LinkButton to={`/tx/${txHash}/?tab=graph`}>
-                      <FontAwesomeIcon icon={faProjectDiagram} />
-                      View batch graph
-                    </LinkButton>
+                    {GRAPH_ENABLED ? (
+                      <LinkButton to={`/tx/${txHash}/?tab=graph`}>
+                        <FontAwesomeIcon icon={faProjectDiagram} />
+                        View batch graph
+                      </LinkButton>
+                    ) : null}
                   </Wrapper>
                 ) : (
                   '-'

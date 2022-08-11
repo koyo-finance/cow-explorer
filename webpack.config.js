@@ -25,6 +25,7 @@ const EXPLORER_APP = {
     // EXPLORER_APP_DOMAIN_REGEX_BARN: '^barn\\.explorer\\.cow\\.fi|^barn\\.gnosis-protocol\\.io',
 
     OPERATOR_URL_PROD_BOBA: 'https://momiji.koyo.finance/boba/api',
+    EXPLORER_APP_GRAPH_ENABLED: false,
 
     GOOGLE_ANALYTICS_ID: '',
     REACT_APP_SENTRY_DSN: '',

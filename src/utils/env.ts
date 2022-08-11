@@ -37,4 +37,7 @@ export const environmentName = (function (): 'production' | 'barn' | 'staging' |
   }
 })()
 
+export const GRAPH_ENABLED =
+  process.env.EXPLORER_APP_GRAPH_ENABLED === undefined ? true : process.env.EXPLORER_APP_GRAPH_ENABLED
+
 export { isDev, isStaging, isProd, isBarn }
