@@ -1,10 +1,10 @@
-import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { ArrowIconCSS } from 'components/icons/cssIcons'
+import styled from 'styled-components'
 import { COLOURS } from 'styles'
 import { media } from 'theme/styles/media'
-import { ArrowIconCSS } from 'components/icons/cssIcons'
 
-const { fadedGreyishWhiteOpacity, white, gnosisChainColor } = COLOURS
+const { fadedGreyishWhiteOpacity, white, blackLight, bobaChainColour } = COLOURS
 
 export const SelectorContainer = styled.div`
   display: flex;
@@ -58,14 +58,8 @@ export const Option = styled.div`
     height: 8px;
     border-radius: 100%;
     margin-right: 9px;
-    &.rinkeby {
-      background: ${({ theme }): string => theme.yellow4};
-    }
-    &.gnosischain {
-      background: ${(): string => gnosisChainColor};
-    }
-    &.ethereum {
-      background: ${({ theme }): string => theme.blue4};
+    &.boba {
+      background: ${(): string => bobaChainColour};
     }
   }
 `
@@ -81,19 +75,9 @@ export const NetworkLabel = styled.span`
   font-weight: ${({ theme }): string => theme.fontBold};
   letter-spacing: 0.1rem;
 
-  &.rinkeby {
-    background: ${({ theme }): string => theme.yellow4};
-    color: ${({ theme }): string => theme.black};
-  }
-
-  &.ethereum {
-    background: ${({ theme }): string => theme.blue4};
-    color: ${({ theme }): string => theme.textSecondary1};
-  }
-
-  &.gnosischain {
-    background: ${(): string => `rgba(7,121,91,1.00);`};
-    color: ${(): string => white};
+  &.boba {
+    background: ${(): string => bobaChainColour};
+    color: ${(): string => blackLight};
   }
 `
 
