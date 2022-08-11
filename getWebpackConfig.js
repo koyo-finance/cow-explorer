@@ -9,6 +9,8 @@ const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const PreloadWebpackPlugin = require('preload-webpack-plugin')
 const SentryWebpackPlugin = require('@sentry/webpack-plugin')
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
+const FilterWarningsPlugin = require('webpack-filter-warnings-plugin')
 const markdownIt = require('markdown-it')
 const linkAttributes = require('markdown-it-link-attributes')
 
@@ -51,6 +53,12 @@ function _getPlugins({ apps, config, envVars, stats, defineVars, publicPaths, is
   )
   const plugins = htmlPlugins
 
+  plugins.push(
+    new FilterWarningsPlugin({
+      exclude: [/Critical dependency/, /default-exporting module/, /modali/, /dnsEncode/],
+    }),
+  )
+
   // Preload plugin: Lazy loading help, uses <link rel='preload'> with the chunks
   plugins.push(
     new PreloadWebpackPlugin({
@@ -86,6 +94,8 @@ function _getPlugins({ apps, config, envVars, stats, defineVars, publicPaths, is
       ...envVars,
     }),
   )
+
+  plugins.push(new NodePolyfillPlugin())
 
   // Production only plugins
   if (isProduction) {
@@ -245,8 +255,7 @@ function getWebpackConfig({ apps = [], config = {}, envVars = {}, defineVars = {
         'Access-Control-Allow-Methods': 'GET',
         'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
       },
-      contentBase:
-        publicPaths.length > 0 ? publicPaths.map((publicPath) => path.join(__dirname, publicPath)) : undefined,
+      static: publicPaths.length > 0 ? publicPaths.map((publicPath) => path.join(__dirname, publicPath)) : undefined,
     },
     resolve: {
       alias: {
@@ -267,7 +276,7 @@ function getWebpackConfig({ apps = [], config = {}, envVars = {}, defineVars = {
     },
     plugins: _getPlugins({ apps, config, envVars, stats, defineVars, publicPaths, isProduction }),
     optimization: {
-      moduleIds: 'hashed',
+      moduleIds: 'deterministic',
       splitChunks: {
         chunks: 'all',
         minSize: 20000,

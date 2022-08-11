@@ -12,6 +12,8 @@ import { BlockExplorerLink } from 'components/common/BlockExplorerLink'
 import { MEDIA } from 'const'
 import { PREFIX_BY_NETWORK_ID } from 'state/network'
 import { networkOptions } from 'components/NetworkSelector'
+import { SupportedChainsList } from '@koyofinance/momiji-sdk'
+import { CHAIN_DISPLAY_NAME } from '@koyofinance/core-sdk'
 
 const Wrapper = styled.div`
   display: flex;
@@ -145,14 +147,14 @@ export const useSearchInAnotherNetwork = (
   const fetchAnotherNetworks = useCallback(
     async (_networkId: Network) => {
       const promises = NETWORK_ID_SEARCH_LIST.filter((net) => net !== _networkId).map((network) =>
-        getAccountOrders({ networkId: network, owner: ownerAddress, offset: 0, limit: 1 })
+        getAccountOrders({ networkId: network as SupportedChainsList, owner: ownerAddress, offset: 0, limit: 1 })
           .then((response) => {
             if (!response.length) return
 
             return { network }
           })
           .catch((e) => {
-            console.error(`Failed to fetch order in ${Network[network]}`, e)
+            console.error(`Failed to fetch order in ${CHAIN_DISPLAY_NAME[network]}`, e)
           }),
       )
 

@@ -26,8 +26,8 @@ const EXPLORER_APP = {
 
     OPERATOR_URL_PROD_BOBA: 'https://momiji.koyo.finance/boba/api',
 
-    GOOGLE_ANALYTICS_ID: undefined,
-    REACT_APP_SENTRY_DSN: undefined,
+    GOOGLE_ANALYTICS_ID: '',
+    REACT_APP_SENTRY_DSN: '',
   },
 }
 const ALL_APPS = [EXPLORER_APP]
