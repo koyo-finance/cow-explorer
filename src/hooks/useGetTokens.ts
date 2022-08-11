@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useState } from 'react'
 import { gql } from '@apollo/client'
-import { subDays, subHours } from 'date-fns'
-import { Network, UiError } from 'types'
-import { COW_SDK, NATIVE_TOKEN_PER_NETWORK } from 'const'
-import { TableState } from 'apps/explorer/components/TokensTableWidget/useTable'
 import { TokenErc20 } from '@gnosis.pm/dex-js'
+import { TableState } from 'apps/explorer/components/TokensTableWidget/useTable'
+import { COW_SDK } from 'const'
+import { subDays, subHours } from 'date-fns'
 import { UTCTimestamp } from 'lightweight-charts'
+import { useCallback, useEffect, useState } from 'react'
+import { Network, UiError } from 'types'
 import { isNativeToken } from 'utils'
 
 export function useGetTokens(networkId: Network | undefined, tableState: TableState): GetTokensResult {
@@ -20,7 +20,7 @@ export function useGetTokens(networkId: Network | undefined, tableState: TableSt
       setTokens([])
       setHistoricalDataLoaded({})
       try {
-        const response = await COW_SDK[network]?.cowSubgraphApi.runQuery<{ tokens: TokenResponse[] }>(GET_TOKENS_QUERY)
+        const response = await COW_SDK[network]?.subgraphService.runQuery<{ tokens: TokenResponse[] }>(GET_TOKENS_QUERY)
         if (response) {
           const tokens = enhanceNativeToken(response.tokens, network)
           setTokens(tokens)
@@ -45,7 +45,7 @@ export function useGetTokens(networkId: Network | undefined, tableState: TableSt
       const lastWeekTimestamp = Number(lastDaysTimestamp(8)) // last 8 days
       const responses = {}
       for (const tokenId of tokenIds) {
-        const response = COW_SDK[network]?.cowSubgraphApi.runQuery<SubgraphHistoricalDataResponse>(
+        const response = COW_SDK[network]?.subgraphService.runQuery<SubgraphHistoricalDataResponse>(
           GET_HISTORICAL_DATA_QUERY,
           { address: tokenId, lastDayTimestamp, lastWeekTimestamp },
         )
@@ -273,15 +273,14 @@ function lastDaysTimestamp(n: number): string {
   return (subDays(new Date(), n).getTime() / 1000).toFixed(0)
 }
 
-function enhanceNativeToken(tokens: TokenResponse[], network: Network): TokenResponse[] {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function enhanceNativeToken(tokens: TokenResponse[], _network: Network): TokenResponse[] {
   return tokens.map((token) => {
     if (!isNativeToken(token.address)) {
       return token
     }
-    console.log(NATIVE_TOKEN_PER_NETWORK[network], token)
     return {
       ...token,
-      ...NATIVE_TOKEN_PER_NETWORK[network],
     }
   })
 }

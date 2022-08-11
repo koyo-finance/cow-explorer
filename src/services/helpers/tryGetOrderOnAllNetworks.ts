@@ -1,3 +1,4 @@
+import { SupportedChainsList } from '@koyofinance/momiji-sdk'
 import { GetOrderParams, GetTxOrdersParams, RawOrder } from 'api/operator'
 import { NETWORK_ID_SEARCH_LIST } from 'apps/explorer/const'
 import { Network } from 'types'
@@ -28,7 +29,7 @@ type TypeOrderApiParams = GetOrderParams | GetTxOrdersParams
 export async function tryGetOrderOnAllNetworksAndEnvironments<TypeOrderResult>(
   networkId: Network,
   getOrderApi: GetOrderApi<TypeOrderApiParams, TypeOrderResult>,
-  networkIdSearchListRemaining: Network[] = NETWORK_ID_SEARCH_LIST,
+  networkIdSearchListRemaining: Network[] = NETWORK_ID_SEARCH_LIST as SupportedChainsList[],
 ): Promise<GetOrderResult<TypeOrderResult>> {
   // Get order
   let order = null

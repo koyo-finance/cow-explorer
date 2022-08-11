@@ -10,9 +10,8 @@ import LogoWrapper, { LOGO_MAP } from 'components/common/LogoWrapper'
 import { useNetworkId } from 'state/network'
 
 // Config
-import { footerConfig } from '../Footer/config'
-import { Network } from 'types'
 import { ChainId } from '@koyofinance/core-sdk'
+import { footerConfig } from '../Footer/config'
 
 const FooterStyled = styled.footer`
   display: flex;
