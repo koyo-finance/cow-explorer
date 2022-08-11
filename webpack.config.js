@@ -16,13 +16,13 @@ const CONFIG = loadConfig()
 const config = overrideEnvConfig(CONFIG)
 const EXPLORER_APP = {
   name: 'explorer',
-  title: 'CoW Protocol Explorer',
+  title: 'Momiji Explorer',
   filename: 'index.html',
   envVars: {
     EXPLORER_APP_DOMAIN_REGEX_DEV: '^protocol-explorer\\.dev|^localhost:\\d{2,5}|^pr\\d+--explorer\\.review',
     EXPLORER_APP_DOMAIN_REGEX_STAGING: '^protocol-explorer\\.staging',
-    EXPLORER_APP_DOMAIN_REGEX_PROD: '^explorer\\.cow\\.fi|^gnosis-protocol\\.io',
-    EXPLORER_APP_DOMAIN_REGEX_BARN: '^barn\\.explorer\\.cow\\.fi|^barn\\.gnosis-protocol\\.io',
+    EXPLORER_APP_DOMAIN_REGEX_PROD: '^explorer\\.koyo\\.finance|^momiji\\.exchange',
+    // EXPLORER_APP_DOMAIN_REGEX_BARN: '^barn\\.explorer\\.cow\\.fi|^barn\\.gnosis-protocol\\.io',
 
     OPERATOR_URL_PROD_BOBA: 'https://momiji.koyo.finance/boba/api',
 

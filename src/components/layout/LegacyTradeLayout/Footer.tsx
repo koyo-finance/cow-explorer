@@ -1,18 +1,17 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 
-import { MEDIA } from 'const'
 import { depositApi } from 'apps/gp-v1/api'
+import { MEDIA } from 'const'
 
 // Assets
-import verified from 'assets/img/verified.svg'
 import builtOnGP from 'assets/img/builtOnGP.svg'
+import verified from 'assets/img/verified.svg'
 
 // Components
-import ThemeToggler, { ThemeTogglerWrapper } from 'components/ThemeToggler'
 import { BlockExplorerLink } from 'apps/gp-v1/components/common/BlockExplorerLink'
-import { ExternalLink } from 'components/analytics/ExternalLink'
+import ThemeToggler, { ThemeTogglerWrapper } from 'components/ThemeToggler'
 
 // Hooks
 import { useWalletConnection } from 'hooks/useWalletConnection'
@@ -236,29 +235,7 @@ const Footer: React.FC = () => {
           <Link to="/faq">FAQ</Link>
         </FooterLinks>
         {/* VERSION */}
-        <div className="version">
-          <ExternalLink
-            target="_blank"
-            rel="noopener noreferrer"
-            href={'https://github.com/gnosis/gp-v1-ui/tree/v' + VERSION}
-          >
-            Web: v{VERSION}
-          </ExternalLink>{' '}
-          <ExternalLink
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://github.com/gnosis/gp-v1-ui/wiki/App-Ids-for-Forks"
-          >
-            App Id: {CONFIG.appId}
-          </ExternalLink>
-          <ExternalLink
-            target="_blank"
-            rel="noopener noreferrer"
-            href={'https://github.com/gnosis/dex-contracts/tree/v' + CONTRACT_VERSION}
-          >
-            Contracts: v{CONTRACT_VERSION}
-          </ExternalLink>
-        </div>
+        <div className="version"></div>
       </SideContentWrapper>
     </Wrapper>
   )

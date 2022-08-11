@@ -11,13 +11,13 @@ function checkEnvironment(host: string): Envs {
   const domainDevRegex = getRegex(process.env.EXPLORER_APP_DOMAIN_REGEX_DEV)
   const domainStagingRegex = getRegex(process.env.EXPLORER_APP_DOMAIN_REGEX_STAGING)
   const domainProdRegex = getRegex(process.env.EXPLORER_APP_DOMAIN_REGEX_PROD)
-  const domainBarnRegex = getRegex(process.env.EXPLORER_APP_DOMAIN_REGEX_BARN)
+  // const domainBarnRegex = getRegex(process.env.EXPLORER_APP_DOMAIN_REGEX_BARN)
 
   return {
     isDev: domainDevRegex?.test(host) || false,
     isStaging: domainStagingRegex?.test(host) || false,
     isProd: domainProdRegex?.test(host) || false,
-    isBarn: domainBarnRegex?.test(host) || false,
+    isBarn: false,
   }
 }
 

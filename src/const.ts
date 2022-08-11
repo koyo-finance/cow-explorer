@@ -51,7 +51,12 @@ export const MINIMUM_ALLOWANCE_DECIMALS = 10
 //    https://github.com/gnosis/gp-v1-ui/wiki/App-Ids-for-Forks
 export const MAX_APP_ID = 255
 
-export const APP_NAME = 'CoW Protocol'
+export const APP_NAME = 'Kōyō Finance'
+export const CORE_APP_LINK = 'https://koyo.finance'
+
+export const DISCORD_LINK = 'https://docs.koyo.finance/discord'
+
+export const ANALYTICS_LINK = 'https://info.koyo.finance'
 
 export const ETHER_PNG =
   'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png'

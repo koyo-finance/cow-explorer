@@ -1,16 +1,15 @@
-import React, { useState, createRef } from 'react'
-
-import { MenuBarToggle, Navigation } from 'components/layout/GenericLayout/Navigation'
-import { Header as GenericHeader } from 'components/layout/GenericLayout/Header'
-import { NetworkSelector } from 'components/NetworkSelector'
-import { PREFIX_BY_NETWORK_ID, useNetworkId } from 'state/network'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisH, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { FlexWrap } from 'apps/explorer/pages/styled'
 import { ExternalLink } from 'components/analytics/ExternalLink'
-import { useHistory } from 'react-router'
+import { Header as GenericHeader } from 'components/layout/GenericLayout/Header'
+import { MenuBarToggle, Navigation } from 'components/layout/GenericLayout/Navigation'
+import { NetworkSelector } from 'components/NetworkSelector'
+import { ANALYTICS_LINK, APP_NAME, CORE_APP_LINK, DISCORD_LINK } from 'const'
 import useOnClickOutside from 'hooks/useOnClickOutside'
-import { APP_NAME } from 'const'
+import React, { createRef, useState } from 'react'
+import { useHistory } from 'react-router'
+import { PREFIX_BY_NETWORK_ID, useNetworkId } from 'state/network'
 
 export const Header: React.FC = () => {
   const history = useHistory()
@@ -43,22 +42,17 @@ export const Header: React.FC = () => {
             <a onClick={(e): void => handleNavigate(e)}>Home</a>
           </li>
           <li>
-            <ExternalLink target={'_blank'} href={'https://cow.fi'}>
+            <ExternalLink target={'_blank'} href={CORE_APP_LINK}>
               {APP_NAME}
             </ExternalLink>
           </li>
           <li>
-            <ExternalLink target={'_blank'} href={'https://docs.cow.fi'}>
-              Documentation
-            </ExternalLink>
-          </li>
-          <li>
-            <ExternalLink target={'_blank'} href={'https://discord.gg/cowprotocol'}>
+            <ExternalLink target={'_blank'} href={DISCORD_LINK}>
               Community
             </ExternalLink>
           </li>
           <li>
-            <ExternalLink target={'_blank'} href={'https://dune.xyz/gnosis.protocol/Gnosis-Protocol-V2'}>
+            <ExternalLink target={'_blank'} href={ANALYTICS_LINK}>
               Analytics
             </ExternalLink>
           </li>

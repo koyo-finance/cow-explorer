@@ -48,7 +48,7 @@ export const Home: React.FC = () => {
   const networkId = useNetworkId() || undefined
   return (
     <Wrapper>
-      <h1>Search on CoW Protocol Explorer</h1>
+      <h1>Search on the Momiji CoW Protocol Explorer</h1>
       <Search className="home" />
       <SummaryWrapper>
         <StatsSummaryCardsWidget />

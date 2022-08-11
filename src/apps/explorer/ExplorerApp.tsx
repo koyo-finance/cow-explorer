@@ -28,7 +28,7 @@ if (SENTRY_DSN) {
   Sentry.init({
     dsn: SENTRY_DSN,
     integrations: [new Integrations.BrowserTracing()],
-    release: 'gp-explorer@v' + version,
+    release: 'momiji-explorer@v' + version,
     environment: environmentName,
 
     // Set tracesSampleRate to 1.0 to capture 100%
