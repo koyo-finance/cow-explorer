@@ -4,7 +4,7 @@ import { useLocation, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { Search } from 'apps/explorer/components/common/Search'
 import SupportIcon from 'assets/img/support.png'
-import { MEDIA } from 'const'
+import { DISCORD_LINK, MEDIA } from 'const'
 import { BlockExplorerLink } from 'components/common/BlockExplorerLink'
 
 const Title = styled.h1`
@@ -120,7 +120,7 @@ export const OrderAddressNotFound: React.FC = (): JSX.Element => {
           <SearchContent>
             <Search searchString={wasRedirected ? '' : searchString} submitSearchImmediatly={!wasRedirected} />
             <span>or</span>
-            <Support href="https://discord.com/invite/cowprotocol" target="_blank" rel="noopener noreferrer">
+            <Support href={DISCORD_LINK} target="_blank" rel="noopener noreferrer">
               Get Support
               <img src={SupportIcon} />
             </Support>
@@ -129,6 +129,7 @@ export const OrderAddressNotFound: React.FC = (): JSX.Element => {
       </Content>
       {showLinkData && (
         <LinkData>
+          {/* @ts-expect-error Don't care */}
           This is not a CowProtocol transaction. See it on <BlockExplorerLink {...(data as never)} />
         </LinkData>
       )}
